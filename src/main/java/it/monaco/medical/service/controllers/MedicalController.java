@@ -8,7 +8,7 @@ import it.monaco.medical.service.model.enums.EnumTipiAlimentazione;
 import it.monaco.medical.service.model.enums.ErrorCode;
 import it.monaco.medical.service.model.enums.ErrorType;
 import it.monaco.medical.service.model.exceptions.LegacyException;
-import it.monaco.medical.service.services.QuattroRuoteService;
+import it.monaco.medical.service.services.MedicalService;
 import it.monaco.medical.service.utils.LegacyDateUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -29,18 +29,18 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value ="/quattroruote/vehicle")
+@RequestMapping(value ="/medical-service/vehicle")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class QuattroRuoteController extends LegacyBaseController{
+public class MedicalController extends LegacyBaseController{
 
-    public static Logger logger = LoggerFactory.getLogger(QuattroRuoteController.class);
+    public static Logger logger = LoggerFactory.getLogger(MedicalController.class);
 
     @Autowired
-    private QuattroRuoteService quattroRuoteService;
+    private MedicalService quattroRuoteService;
 
     @GetMapping({"/vehicle-makers"})
-    public ResponseEntity<QuattroRuoteResponse> getVehicleMakers(
+    public ResponseEntity<MedicalResponse> getVehicleMakers(
             @ApiParam(required = true, allowableValues = "WEB_SITE,MOBILE_SITE,POS_SITE,UIMX") @RequestParam("channel") EnumChannel channel,
             @ApiParam(required = true, value = "host") @RequestParam("host") String host,
             @ApiParam(required = true, value = "sessionId") @RequestParam("session") String session,
@@ -53,7 +53,7 @@ public class QuattroRuoteController extends LegacyBaseController{
         setParamsForLog(session, channel, host);
         logger.info(String.format(apiURL()+"/vehicle-makers/. Input Params : [sessionId = %s], [channel = %s] [host = %s], [matriculation = %s], [referenceDate = %s], [aniaOmologationCode = %s] ", session, channel.getChannel(), host, matriculation, referenceDate, aniaOmologationCode));
 
-        QuattroRuoteResponse response = null;
+        MedicalResponse response = null;
         List<VehicleMakerDTO> vehicleMakerDTOList = null;
 
         try
@@ -64,32 +64,32 @@ public class QuattroRuoteController extends LegacyBaseController{
                 throw new LegacyException("No vehcile maker found for inputs: [matriculation = "+matriculation+"],[referenceDate = "+referenceDate+"],[aniaOmologationCode = "+aniaOmologationCode+"].",  ErrorType.DATABASE, ErrorCode.QTR_003_VEHICLE_MAKERS_NOT_FOUND);
             }
 
-            response = new QuattroRuoteResponse(HttpStatus.OK);
+            response = new MedicalResponse(HttpStatus.OK);
             response.setMakers(vehicleMakerDTOList);
 
         }
         catch(LegacyException lex)
         {
             logger.error(apiURL()+"/vehicle-makers"+lex.getMessage(), lex);
-            response = new QuattroRuoteResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new MedicalResponse(HttpStatus.INTERNAL_SERVER_ERROR);
             ErrorCode errorCode = lex.getErrorCode()!= null ? lex.getErrorCode() : ErrorCode.LEG_999_UNEXPECTED_ERROR;
             ErrorDTO error = new ErrorDTO(errorCode, lex.getMessage(), lex.getLocalizedMessage());
             response.setError(error);
-            return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MedicalResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
 
         catch(Exception ex)
         {
             logger.error(apiURL()+"/vehicle-makers"+ex.getMessage(), ex);
-            response = new QuattroRuoteResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new MedicalResponse(HttpStatus.INTERNAL_SERVER_ERROR);
             ErrorDTO error = new ErrorDTO(ErrorCode.QTR_999_VEHICLE_MAKERS_UNEXPECTED_ERROR, ex.getMessage(), ex.getLocalizedMessage());
             response.setError(error);
-            return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MedicalResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
 
-        return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.OK);
+        return new ResponseEntity<MedicalResponse>(response, HttpStatus.OK);
     }
 
 
@@ -107,7 +107,7 @@ public class QuattroRuoteController extends LegacyBaseController{
         setParamsForLog(session, channel, host);
         logger.info(String.format(apiURL()+"/vehicle-models/. Input Params : [sessionId = %s], [channel = %s] [host = %s], [matriculation = %s], [referenceDate = %s], [aniaOmologationCode = %s] ", session, channel.getChannel(), host, matriculation, referenceDate, aniaOmologationCode));
 
-        QuattroRuoteResponse response = null;
+        MedicalResponse response = null;
         List<VehicleModelDTO> vehicleModelDTOList = null;
 
         try {
@@ -119,35 +119,35 @@ public class QuattroRuoteController extends LegacyBaseController{
                                           ErrorCode.QTR_005_VEHICLE_MODEL_NOT_FOUND);
             }
 
-            response = new QuattroRuoteResponse(HttpStatus.OK);
+            response = new MedicalResponse(HttpStatus.OK);
             response.setModels(vehicleModelDTOList);
 
         } catch (LegacyException lex) {
             logger.error(apiURL() + "/vehicle-models : " + lex.getMessage(), lex);
-            response = new QuattroRuoteResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new MedicalResponse(HttpStatus.INTERNAL_SERVER_ERROR);
             ErrorCode errorCode = lex.getErrorCode();
             ErrorDTO error = new ErrorDTO(errorCode, lex.getMessage(), lex.getLocalizedMessage());
             response.setError(error);
-            return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MedicalResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
         } catch (Exception ex) {
             logger.error(apiURL() + "/vehicle-models :  " + ex.getMessage(), ex);
-            response = new QuattroRuoteResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new MedicalResponse(HttpStatus.INTERNAL_SERVER_ERROR);
             ErrorDTO error = new ErrorDTO(ErrorCode.QTR_998_VEHICLE_MODELS_UNEXPECTED_ERROR, ex.getMessage(),
                                           ex.getLocalizedMessage());
             response.setError(error);
-            return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MedicalResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
 
-        return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.OK);
+        return new ResponseEntity<MedicalResponse>(response, HttpStatus.OK);
 
     }
 
 
 
     @GetMapping("/vehicle-supplies")
-    public ResponseEntity<QuattroRuoteResponse> getVehicleSupplies(
+    public ResponseEntity<MedicalResponse> getVehicleSupplies(
             @ApiParam(required = true, allowableValues = "WEB_SITE,MOBILE_SITE,POS_SITE,UIMX") @Validated @RequestParam("channel") EnumChannel channel,
             @ApiParam(required = true, value = "host")@Validated @RequestParam("host") String host,
             @ApiParam(required = true, value = "sessionId") @Validated @RequestParam("session") String session,
@@ -164,41 +164,41 @@ public class QuattroRuoteController extends LegacyBaseController{
                                   session, channel.getChannel(), host, makeCode, modelName, matriculation,
                                   referenceDate, aniaOmologationCode));
 
-        QuattroRuoteResponse response = null;
+        MedicalResponse response = null;
         List<FuelTypeDTO> fuelTypeDTOList = null;
 
         try {
 
             fuelTypeDTOList = quattroRuoteService.getFuelTypes(makeCode, modelName, matriculation, LegacyDateUtils
                     .toDate(referenceDate, LegacyDateUtils.PATTERN_FROM), aniaOmologationCode);
-            response = new QuattroRuoteResponse(HttpStatus.OK);
+            response = new MedicalResponse(HttpStatus.OK);
             response.setSupplies(fuelTypeDTOList);
 
         } catch (LegacyException lex) {
             logger.error(apiURL() + "/vehicle-supplies" + lex.getMessage(), lex);
-            response = new QuattroRuoteResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new MedicalResponse(HttpStatus.INTERNAL_SERVER_ERROR);
             ErrorCode errorCode = lex.getErrorCode();
             ErrorDTO error = new ErrorDTO(errorCode, lex.getMessage(), lex.getLocalizedMessage());
             response.setError(error);
-            return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MedicalResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
 
         } catch (Exception ex) {
             logger.error(apiURL() + "/vehicle-supplies : " + ex.getMessage(), ex);
-            response = new QuattroRuoteResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new MedicalResponse(HttpStatus.INTERNAL_SERVER_ERROR);
             ErrorDTO error = new ErrorDTO(ErrorCode.QTR_997_VEHICLE_SUPPLIES_UNEXPECTED_ERROR, ex.getMessage(),
                                           ex.getLocalizedMessage());
             response.setError(error);
-            return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MedicalResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.OK);
+        return new ResponseEntity<MedicalResponse>(response, HttpStatus.OK);
     }
 
 
 
     @GetMapping("/vehicle-data-optional")
-    public ResponseEntity<QuattroRuoteResponse> getVehicleDataOptional(
+    public ResponseEntity<MedicalResponse> getVehicleDataOptional(
             @ApiParam(required = true, allowableValues = "WEB_SITE,MOBILE_SITE,POS_SITE,UIMX") @Validated @RequestParam("channel") EnumChannel channel,
             @ApiParam(required = true, value = "host")  @Validated @RequestParam("host") String host,
             @ApiParam(required = true, value = "sessionId")  @Validated @RequestParam("session") String session,
@@ -213,38 +213,38 @@ public class QuattroRuoteController extends LegacyBaseController{
                                   "/vehicle-data-optional. Input Params : [sessionId = %s], [channel = %s] [host = %s], [infocar = %s], [qtrDate = %s], [matriculation = %s], [referenceDate = %s]",
                                   session, channel.getChannel(), host, infocar, qtrDate, matriculation, referenceDate));
 
-        QuattroRuoteResponse response = null;
+        MedicalResponse response = null;
         VehicleDTO vehicleDTO = null;
 
         try {
             vehicleDTO = quattroRuoteService.getVehicleDataOptional(infocar, qtrDate, LegacyDateUtils
                     .toDate(referenceDate, LegacyDateUtils.PATTERN_FROM), matriculation);
-            response = new QuattroRuoteResponse(HttpStatus.OK);
+            response = new MedicalResponse(HttpStatus.OK);
             response.setVehicle(vehicleDTO);
 
         } catch (LegacyException lex) {
             logger.error(apiURL() + "/vehicle-data-optional" + lex.getMessage(), lex);
-            response = new QuattroRuoteResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new MedicalResponse(HttpStatus.INTERNAL_SERVER_ERROR);
             ErrorCode errorCode = lex.getErrorCode();
             ErrorDTO error = new ErrorDTO(errorCode, lex.getMessage(), lex.getLocalizedMessage());
             response.setError(error);
-            return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MedicalResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 
         } catch (Exception ex) {
             logger.error(apiURL() + "/vehicle-data-optional" + ex.getMessage(), ex);
-            response = new QuattroRuoteResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new MedicalResponse(HttpStatus.INTERNAL_SERVER_ERROR);
             ErrorDTO error = new ErrorDTO(ErrorCode.QTR_995_VEHICLE_DATA_OPTIONAL_UNEXPECTED_ERROR, ex.getMessage(),
                                           ex.getLocalizedMessage());
             response.setError(error);
-            return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MedicalResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.OK);
+        return new ResponseEntity<MedicalResponse>(response, HttpStatus.OK);
     }
 
 
     @GetMapping("/vehicle-setup")
-    public ResponseEntity<QuattroRuoteResponse> getVehicleSetUp(
+    public ResponseEntity<MedicalResponse> getVehicleSetUp(
             @ApiParam(required = false, allowableValues = "WEB_SITE,MOBILE_SITE,POS_SITE,UIMX") @QueryParam("channel") EnumChannel channel,
             @ApiParam(required = false, value = "host") @RequestParam("host") String host,
             @ApiParam(required = false, value = "sessionId") @RequestParam("session") String session,
@@ -265,7 +265,7 @@ public class QuattroRuoteController extends LegacyBaseController{
                                   session, channel.getChannel(), host, makeCode, modelName, supplyCode, matriculation,
                                   referenceDate, aniaOmologationCode));
 
-        QuattroRuoteResponse response = null;
+        MedicalResponse response = null;
         String cc = null;
         List<SetupDTO> setups;
 
@@ -282,7 +282,7 @@ public class QuattroRuoteController extends LegacyBaseController{
             }
 
 
-            response = new QuattroRuoteResponse(HttpStatus.OK);
+            response = new MedicalResponse(HttpStatus.OK);
             response.setSetups(setups);
 
 
@@ -290,24 +290,24 @@ public class QuattroRuoteController extends LegacyBaseController{
         catch (LegacyException lex)
         {
             logger.error(apiURL()+"/vehicle-setup :"+lex.getMessage(), lex);
-            response = new QuattroRuoteResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new MedicalResponse(HttpStatus.INTERNAL_SERVER_ERROR);
             ErrorCode errorCode = lex.getErrorCode();
             ErrorDTO error = new ErrorDTO(errorCode, lex.getMessage(), lex.getLocalizedMessage());
             response.setError(error);
-            return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MedicalResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         catch (Exception ex)
         {
             logger.error(apiURL()+"/vehicle-setup : "+ex.getMessage(), ex);
-            response = new QuattroRuoteResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new MedicalResponse(HttpStatus.INTERNAL_SERVER_ERROR);
             ErrorDTO error = new ErrorDTO(ErrorCode.QTR_996_VEHICLE_SETUP_UNEXPECTED_ERROR, ex.getMessage(),
                                           ex.getLocalizedMessage());
             response.setError(error);
-            return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<MedicalResponse>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
 
-        return new ResponseEntity<QuattroRuoteResponse>(response, HttpStatus.OK);
+        return new ResponseEntity<MedicalResponse>(response, HttpStatus.OK);
 
     }
 
@@ -332,7 +332,7 @@ public class QuattroRuoteController extends LegacyBaseController{
     }
 
     @GetMapping("/vehicle-data-optional-by-omologation-code")
-    public ResponseEntity<QuattroRuoteResponse> getVehicleDataOptionalByOmologationCode(
+    public ResponseEntity<MedicalResponse> getVehicleDataOptionalByOmologationCode(
             @RequestParam("channel") EnumChannel channel, @RequestParam("host") String host,
             @RequestParam("session") String session, @RequestParam("omologationCode") String omologationCode,
             @RequestParam("matriculation") Long matriculation) {
@@ -344,25 +344,25 @@ public class QuattroRuoteController extends LegacyBaseController{
                 apiURL() + "/vehicle-data-optional. Input Params : [sessionId = %s], [channel = %s]" + " [host = %s]",
                 session, channel.getChannel(), host));
 
-        QuattroRuoteResponse response;
+        MedicalResponse response;
 
         List<VehicleDTO> vehicleList;
 
         try {
             vehicleList = quattroRuoteService.getOptionalByOmologationCode(omologationCode, matriculation);
-            response = new QuattroRuoteResponse(HttpStatus.OK);
+            response = new MedicalResponse(HttpStatus.OK);
             response.setVehicleList(vehicleList);
 
         } catch (LegacyException lex) {
             logger.error(apiURL() + "/vehicle-data-optional-by-omologation-code" + lex.getMessage(), lex);
-            response = new QuattroRuoteResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new MedicalResponse(HttpStatus.INTERNAL_SERVER_ERROR);
             ErrorCode errorCode = lex.getErrorCode();
             ErrorDTO error = new ErrorDTO(errorCode, lex.getMessage(), lex.getLocalizedMessage());
             response.setError(error);
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception ex) {
             logger.error(apiURL() + "/vehicle-data-optional-by-omologation-code" + ex.getMessage(), ex);
-            response = new QuattroRuoteResponse(HttpStatus.INTERNAL_SERVER_ERROR);
+            response = new MedicalResponse(HttpStatus.INTERNAL_SERVER_ERROR);
             ErrorDTO error = new ErrorDTO(ErrorCode.QTR_995_VEHICLE_DATA_OPTIONAL_UNEXPECTED_ERROR, ex.getMessage(),
                                           ex.getLocalizedMessage());
             response.setError(error);
@@ -380,7 +380,7 @@ public class QuattroRuoteController extends LegacyBaseController{
 
     @Override
     public String apiURL() {
-        return "/quattroruote/vehicle";
+        return "/medical-service/vehicle";
     }
 
 }

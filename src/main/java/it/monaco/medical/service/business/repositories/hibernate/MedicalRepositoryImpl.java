@@ -1,13 +1,12 @@
 package it.monaco.medical.service.business.repositories.hibernate;
 
-import it.monaco.medical.service.business.repositories.QuattroRuoteRepositoryCustom;
+import it.monaco.medical.service.business.repositories.MedicalRepositoryCustom;
 import it.monaco.medical.service.controllers.dtos.*;
 import it.monaco.medical.service.model.entities.OptionalData;
 import it.monaco.medical.service.model.entities.QuattroRuoteItem;
 import it.monaco.medical.service.model.entities.ValoreUsato;
 import it.monaco.medical.service.model.enums.*;
 import it.monaco.medical.service.model.exceptions.LegacyException;
-import it.monaco.medical.service.utils.LegacyDateUtils;
 import it.monaco.medical.service.utils.VehicleUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -26,10 +25,10 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class QuattroRuoteRepositoryImpl implements QuattroRuoteRepositoryCustom{
+public class MedicalRepositoryImpl implements MedicalRepositoryCustom{
 
 
-    public static Logger logger = LoggerFactory.getLogger(QuattroRuoteRepositoryImpl.class);
+    public static Logger logger = LoggerFactory.getLogger(MedicalRepositoryImpl.class);
 
     @PersistenceContext
     EntityManager entityManager;

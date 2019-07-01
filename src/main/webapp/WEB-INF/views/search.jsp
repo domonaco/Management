@@ -3,14 +3,14 @@
 <html ng-app="app">
 <head>
     <meta charset="utf-8"/>
-    <title>QuattroRuote Manual Entry</title>
+    <title>Medical Service</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </head>
 
 <body ng-controller="QRController as ctrl" ng-init="ctrl.vehicleMakersList()" style="font-size: small">
 <div class="panel panel-default">
-    <div class="panel-heading" style="background: orange; margin: 5px; font-size: xx-large"><b>QUATTRORUOTE |</b>
+    <div class="panel-heading" style="background: orange; margin: 5px; font-size: xx-large"><b>Medical Service |</b>
         Ricerca
     </div>
     <div class="col-sm-5">

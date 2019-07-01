@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class QuattroRuoteResponse implements Serializable {
+public class MedicalResponse implements Serializable {
 
     private HttpStatus status;
 
@@ -33,7 +33,7 @@ public class QuattroRuoteResponse implements Serializable {
 
     private String newVehicleId;
 
-    public QuattroRuoteResponse(HttpStatus status) {
+    public MedicalResponse(HttpStatus status) {
 
         this.status = status;
     }

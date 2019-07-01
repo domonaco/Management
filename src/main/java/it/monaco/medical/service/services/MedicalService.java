@@ -1,6 +1,6 @@
 package it.monaco.medical.service.services;
 
-import it.monaco.medical.service.business.repositories.QuattroRuoteRepository;
+import it.monaco.medical.service.business.repositories.MedicalRepository;
 import it.monaco.medical.service.controllers.dtos.*;
 import it.monaco.medical.service.model.entities.OptionalData;
 import it.monaco.medical.service.model.entities.QuattroRuoteItem;
@@ -25,12 +25,12 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class QuattroRuoteService{
+public class MedicalService{
 
-    public static Logger logger = LoggerFactory.getLogger(QuattroRuoteService.class);
+    public static Logger logger = LoggerFactory.getLogger(MedicalService.class);
 
     @Autowired
-    QuattroRuoteRepository quattroRuoteRepository;
+    MedicalRepository quattroRuoteRepository;
 
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)

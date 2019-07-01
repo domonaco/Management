@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Date;
 import java.util.List;
 
-public interface QuattroRuoteRepositoryCustom {
+public interface MedicalRepositoryCustom{
 
     List<QuattroRuoteItem> findVehicleMakers(Long matriculationYearMonth, Date referenceDate, String aniaOmologationCode) throws LegacyException;
 

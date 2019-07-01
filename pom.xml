@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>it.verti.legacy.local.integration</groupId>
-    <artifactId>quattroruote-service-manager</artifactId>
-    <version>0.0.1</version>
+    <groupId>it.monaco.medical.service</groupId>
+    <artifactId>medical-service</artifactId>
+    <version>1.0</version>
     <packaging>war</packaging>
 
-    <name>quattroruote-service-manager</name>
-    <description>Quattro Ruote Service Manger</description>
+    <name>medical-service</name>
+    <description>Medical Service</description>
 
 
     <parent>
@@ -219,6 +219,12 @@
             <version>1.2.1</version>
         </dependency>
 
+        <!-- PostgreSQL -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
 
     </dependencies>
 
@@ -234,7 +240,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>quattroruote-service-manager</finalName>
+        <finalName>medical-service</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

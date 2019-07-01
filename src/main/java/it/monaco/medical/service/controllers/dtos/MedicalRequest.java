@@ -8,7 +8,7 @@ import java.util.Date;
 import java.io.Serializable;
 import java.util.Date;
 
-public class QuattroRuoteRequest implements Serializable {
+public class MedicalRequest implements Serializable {
 
     private Date matriculationDate;
 
@@ -92,7 +92,7 @@ public class QuattroRuoteRequest implements Serializable {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("QuattroRuoteRequest{");
+        final StringBuffer sb = new StringBuffer("MedicalRequest{");
         sb.append("matriculationDate=").append(matriculationDate);
         sb.append(", referenceDate=").append(referenceDate);
         sb.append(", aniaOmologationCode='").append(aniaOmologationCode).append('\'');

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface QuattroRuoteRepository extends JpaRepository<QuattroRuoteItem, String>, QuattroRuoteRepositoryCustom{
+public interface MedicalRepository extends JpaRepository<QuattroRuoteItem, String>, MedicalRepositoryCustom{
 
 
 }

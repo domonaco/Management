@@ -6,14 +6,14 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class QuattroRuoteApplication  extends SpringBootServletInitializer{
+public class MedicalServiceApplication extends SpringBootServletInitializer{
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(QuattroRuoteApplication.class);
+        return application.sources(MedicalServiceApplication.class);
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(QuattroRuoteApplication.class, args);
+        SpringApplication.run(MedicalServiceApplication.class, args);
     }
 }
